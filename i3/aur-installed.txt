@@ -1,0 +1,12 @@
+ani-cli 4.10-1
+anki 25.02.6-1
+arc-gtk-theme 20221218-2
+betterlockscreen 4.4.0-1
+catppuccin-gtk-theme-mocha 1.0.3-1
+i3lock-color 2.13.c.5-3
+i3lock-color-debug 2.13.c.5-3
+libinput-gestures 2.80-1
+minecraft-launcher 1:2.1.3-3
+ttf-google-thai 1.0.0-1
+yay 12.5.0-1
+yay-debug 12.5.0-1
