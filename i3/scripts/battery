@@ -1,0 +1,71 @@
+#!/bin/bash
+
+# Get battery info
+CAPACITY=$(cat /sys/class/power_supply/BAT0/capacity)
+STATUS=$(cat /sys/class/power_supply/BAT0/status)
+
+# Initialize variables for output
+FULL_TEXT=""
+SHORT_TEXT="" # Often left empty if full text is sufficient
+COLOR=""
+
+# Determine icon and bar based on capacity
+if [ "$CAPACITY" -ge 100 ]; then
+  ICON="󰁹"
+  BAR="[██████████]"
+elif [ "$CAPACITY" -ge 90 ]; then
+  ICON="󱊣"
+  BAR="[█████████░]"
+elif [ "$CAPACITY" -ge 80 ]; then
+  ICON="󱊣"
+  BAR="[████████░░]"
+elif [ "$CAPACITY" -ge 70 ]; then
+  ICON="󱊢"
+  BAR="[███████░░░]"
+elif [ "$CAPACITY" -ge 60 ]; then
+  ICON="󱊢"
+  BAR="[██████░░░░]"
+elif [ "$CAPACITY" -ge 50 ]; then
+  ICON="󱊢"
+  BAR="[█████░░░░░]"
+elif [ "$CAPACITY" -ge 40 ]; then
+  ICON="󱊢"
+  BAR="[████░░░░░░]"
+elif [ "$CAPACITY" -ge 30 ]; then
+  ICON="󱊡"
+  BAR="[███░░░░░░░]"
+elif [ "$CAPACITY" -ge 20 ]; then
+  ICON="󱊡"
+  BAR="[██░░░░░░░░]"
+elif [ "$CAPACITY" -ge 10 ]; then
+  ICON="󰂎"
+  BAR="[█░░░░░░░░░]"
+else
+  ICON="󰂎"
+  BAR="[░░░░░░░░░░]"
+fi
+
+# Set color based on status and capacity
+if [[ "$STATUS" == "Charging" ]]; then
+  COLOR="#EF9F76" # Orangenish for charging
+  FULL_TEXT="  $BAR $CAPACITY% " # Add charging icon
+elif [[ "$STATUS" == "Full" ]]; then
+  COLOR="#A6D189" # Greenish for full
+  FULL_TEXT=" FULL $ICON $BAR $CAPACITY% " # A different icon for full
+elif [ "$CAPACITY" -lt 20 ]; then # Red for low battery
+  COLOR="#E78284"
+elif [ "$CAPACITY" -lt 50 ]; then # Bluish for medium battery
+  COLOR="#8CAAEE"
+else # Greenish for high battery
+  COLOR="#A6D189"
+fi
+
+# If not charging/full, set the regular battery display
+if [[ "$STATUS" != "Charging" && "$STATUS" != "Full" ]]; then
+  FULL_TEXT=" $ICON $BAR $CAPACITY% "
+fi
+
+# Output for i3blocks (3 lines: Full Text, Short Text, Color)
+echo "$FULL_TEXT"
+echo "$SHORT_TEXT" # This line is often left empty if not needed
+echo "$COLOR"

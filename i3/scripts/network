@@ -1,0 +1,97 @@
+#!/bin/bash
+
+# --- Interface Detection ---
+# Use BLOCK_INSTANCE if provided, otherwise default to wlan0
+if [[ -z "$INTERFACE" ]] ; then
+    INTERFACE="${BLOCK_INSTANCE:-wlan0}"
+fi
+
+# --- Global Variables for Output ---
+FULL_TEXT=""
+SHORT_TEXT="" # Often left empty if full text is sufficient
+COLOR=""      # Color for the block's background
+
+# Define Wi-Fi signal strength icons (from your reference)
+# These are mapped to 0-20%, 21-40%, 41-60%, 61-80%, 81-100% signal strength
+WIFI_ICONS=("󰤯" "󰤟" "󰤢" "󰤥" "󰤨") # Icons based on signal strength
+
+# Define other icons (for Ethernet and disconnected/unknown states)
+ETHERNET_ICON="󰈀"
+DISCONNECTED_ICON="󰤮"
+UNKNOWN_ICON="󰤫" # Defined explicitly for clarity
+
+# --- Click Handling ---
+# If left-clicked (button 1), open nmtui in kitty terminal
+if [ "$BLOCK_BUTTON" = "1" ]; then
+  # Make sure 'kitty' and 'nmtui' are installed.
+  # 'nmtui' is part of the 'networkmanager' package.
+  kitty nmtui &
+  # exit 0 # Exit after handling click to prevent immediate script re-execution
+fi
+
+# --- Network Status Logic ---
+
+# First, check if the interface itself exists in /sys/class/net/.
+# If it doesn't exist at all, exit silently (don't display block).
+[[ ! -d "/sys/class/net/${INTERFACE}" ]] && exit
+
+# Check if the interface is 'down' (applies to both Wi-Fi and Ethernet)
+if [[ "$(cat /sys/class/net/$INTERFACE/operstate)" = 'down' ]]; then
+    FULL_TEXT="[ $DISCONNECTED_ICON ]" # Added consistent padding
+    COLOR="#E78284" # Reddish for disconnected state
+else
+    # Check if it's a wireless interface by looking for the 'wireless' directory
+    if [[ -d "/sys/class/net/${INTERFACE}/wireless" ]]; then
+        # It's a Wi-Fi interface, try to get signal quality using 'iw'
+        # This specifically looks for lines ending in 'dBm' and extracts the dBm value
+        # Then converts dBm to a percentage (0-100)
+        QUALITY=$(iw dev ${INTERFACE} link 2>/dev/null | grep 'dBm$' | grep -Eoe '-[0-9]{1,3}' | awk '{print ($1 > -50 ? 100 :($1 < -100 ? 0 : ($1+100)*2))}')
+
+        if [ -n "$QUALITY" ]; then
+          # If QUALITY is found (Wi-Fi signal detected)
+          SIGNAL_PERCENT=$QUALITY
+
+          # --- Select icon based on signal strength ---
+          # Calculate icon index based on signal strength (0-100)
+          # The + 19) / 20 rounds up to assign icon correctly into 5 bins (0-4)
+          ICON_INDEX=$(( (SIGNAL_PERCENT + 19) / 20 ))
+          if [ "$ICON_INDEX" -gt 4 ]; then ICON_INDEX=4; fi # Cap at max icon
+          if [ "$ICON_INDEX" -lt 0 ]; then ICON_INDEX=0; fi # Ensure min icon
+          WIFI_ICON="${WIFI_ICONS[$ICON_INDEX]}"
+
+          # Set full text for Wi-Fi, displaying the selected icon and percentage
+          FULL_TEXT="[ $WIFI_ICON ]" # Added consistent padding, displaying icon and percentage
+
+          # Assign color based on signal strength (consistent palette)
+          if [ "$SIGNAL_PERCENT" -lt 40 ]; then
+            COLOR="#E78284" # Reddish for weak Wi-Fi (<40%)
+          elif [ "$SIGNAL_PERCENT" -lt 70 ]; then
+            COLOR="#8CAAEE" # Bluish for medium Wi-Fi (40%-69%)
+          else
+            COLOR="#A6D189" # Greenish for strong Wi-Fi (70%+)
+          fi
+        else
+          # Wi-Fi interface is up, but no signal quality (e.g., not connected to AP, or very weak signal)
+          FULL_TEXT="[ $DISCONNECTED_ICON ]" # Use disconnected icon for no signal
+          COLOR="#E78284" # Reddish, as it's effectively not connected
+        fi
+    else
+        # It's NOT a wireless interface, assume it's Ethernet or other wired type
+        # Check if any active connection is Ethernet using nmcli
+        ETHERNET_ACTIVE=$(nmcli -t -f TYPE,STATE connection show --active | grep -m 1 '^ethernet:connected:')
+
+        if [ -n "$ETHERNET_ACTIVE" ]; then
+          FULL_TEXT="[ $ETHERNET_ICON ]" # Added consistent padding
+          COLOR="#A6D189" # Greenish for connected Ethernet
+        else
+          # Fallback for unknown state (e.g., wired interface up but no active connection)
+          FULL_TEXT="[ $UNKNOWN_ICON ]" # Using explicitly defined UNKNOWN_ICON
+          COLOR="#FFC107" # Orange for unknown
+        fi
+    fi
+fi
+
+# Output for i3blocks (3 lines: Full Text, Short Text, Color)
+echo "$FULL_TEXT"
+echo "$SHORT_TEXT" # This line is often left empty if not needed
+echo "$COLOR"
