@@ -9,46 +9,46 @@ SHOWCASES
 
 ---
 
-#Waybar
+Waybar
 
-##Tray
+#Tray
 
-tray icon is hiding in expand
+- The tray icon is hidden inside an expandable menu.
 
-##Bluetooth
+#Bluetooth
 
-Left click to open bluetui
-Right click on BLUE to toggle on/off
+- Left click to open bluetui
+- Right click on BLUE to toggle on/off
 
-| color | mean |
+| Color | Meaning |
 |---|---|
-| white | on but not connect |
-| blue | conected bluetooth |
-| gray | bluetooth off |
+| White | On, but not connected |
+| Blue | Conected to bluetooth |
+| Gray | Bluetooth off |
 
-##Network
+#Network
 
-Left click to open nmtui
+- Left click to open nmtui
 
-| format | color | mean |
+| Format | Color | Meaning |
 |---|---|---|
-| ETH | gray | hardware off |
-| NO CON | red | no connect |
-| WIFI | green | connected wifi |
-| WIRE | rainbow | connected wire |
+| ETH | Gray | Hardware off |
+| NO CON | Red | Not connect |
+| WIFI | Green | Connected to Wi-Fi |
+| WIRE | Rainbow | Connected via Ethernet |
 
-##Volume
+#Volume
 
-Left click to open wiremix
+- Left click to open wiremix
+- Rainbow colors check out in /waybar/config.jsonc
 
-color is rainbow check out in /waybar/config.jsonc
+#Battery
 
-##Battery
-
-| format | color | mean |
+| Format | Color | Meaning |
 |---|---|---|
-| percentage | green | 70%-100% |
-| percentage | yellow | 20%-70% |
-| percentage | red | 0%-20% |
-| percentage | rainbow | charging |
-| PLUG | rainbow | plugged |
+| Capacity% | Green | 70%-100% |
+| Capacity% | Yellow | 20%-70% |
+| Capacity% | Red | 0%-20% |
+| Capacity% | Rainbow | Charging |
+| FULL | Rainbow | Battery Full |
+| PLUG | Rainbow | Plugged in |
