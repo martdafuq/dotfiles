@@ -7,4 +7,8 @@ SHOWCASES
 <img src = "asset/3.png">
 <img src = "asset/4.png">
 
-<video src="asset/waybar.mp4" controls autoplay loop muted width="800"></video>
+---
+
+Waybar
+
+<video src="asset/waybar.mp4" controls autoplay loop muted width="1440"></video>
