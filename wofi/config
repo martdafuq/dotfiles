@@ -1,0 +1,11 @@
+width=30%
+hight=100
+prompt=search
+allow_images=true
+image_size=16
+term=kitty
+hide_scroll=true
+close_on_focus_loss=true
+lines=5
+normal_window=true
+key_expand=Tab

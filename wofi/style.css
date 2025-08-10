@@ -1,0 +1,61 @@
+@keyframes rainbow-border {
+    0% {
+        border-color: #FF5252; /* Red */
+    }
+    16% {
+        border-color: #FFD740; /* Yellow */
+    }
+    33% {
+        border-color: #5CF19E; /* Green */
+    }
+    50% {
+        border-color: #40C4FF; /* Blue */
+    }
+    66% {
+        border-color: #FF4081; /* Magenta */
+    }
+    83% {
+        border-color: #64FCDA; /* Cyan */
+    }
+    100% {
+        border-color: #FF5252; /* Red */
+    }
+}
+
+window {
+	background-color: alpha(black, .6);
+	color: white;
+	box-shadow: none;
+	border-radius: 10px;
+}
+
+#input {
+	background: none;
+	padding: 0.25em;
+	margin: 10 10 10 10;
+}
+
+#entry {
+	padding: 1em;
+	margin: 0 10 10 10;
+}
+
+#entry:selected {
+	background: alpha(#5CF19E, .6);
+	box-shadow: none;
+	border-radius: 10px;
+}
+
+#expander-box {
+	background: none;
+	margin: 0 0 0 20;
+}
+
+#text:selected {
+	color: black;
+}
+
+#img {
+	margin: 0 10 0 5;
+}
+

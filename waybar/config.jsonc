@@ -1,0 +1,148 @@
+{
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "spacing": 0,
+  "height": 30,
+  "modules-left": [
+    "hyprland/workspaces"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "group/tray-expander",
+    //"power-profiles-daemon",
+    "bluetooth",
+    "network",
+    "pulseaudio",
+    "battery"
+  ],
+  "hyprland/workspaces": {
+    "on-click": "activate",
+    "format": "{icon}",
+    "format-icons": {
+      "default": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "active": "󱓻"
+    },
+    "persistent-workspaces": {
+      "1": []
+      //"2": []
+      //"3": [],
+      //"4": []
+      //"5": []
+    }
+  },
+  "clock": {
+    "format": "{:%H:%M}",
+    "format-alt": "{:%d %B %Y}",
+    "tooltip": false,
+  },
+  "network": {
+    //"format-icons": ["󰤯","󰤟","󰤢","󰤥","󰤨"],
+    "format" : "ETH",
+    "format-wifi" : "WIFI",
+    "format-ethernet" : "WIRE",
+    "format-disconnected" : "NO CON",
+    "format-disabled": "ETH",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 3,
+    "nospacing": 1,
+    "on-click": "kitty --class=nmtui -e nmtui"
+  },
+  "battery": {
+    "format": "BAT {capacity}%",
+    "format-discharging": "BAT {capacity}%",
+    "format-charging": "BAT {capacity}%",
+    "format-plugged": "PLUG",
+    /*"format-icons": {
+      "charging": [
+        "󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"
+      ],
+      "default": [
+        "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
+    },*/
+    "format-full": "FULL",
+    "tooltip-format-full": "BAT FULL",
+    //"tooltip-format-discharging": "{power:>1.0f}W↓ {capacity}%",
+    //"tooltip-format-charging": "{power:>1.0f}W↑ {capacity}%",
+    "interval": 5,
+    "states": {
+      "good": 100,
+      "warning": 70,
+      "critical": 20
+    }
+  },
+  "bluetooth": {
+    "format": "BLUE",
+    "format-disabled": "BLUE",
+    "format-connected": "BLUE",
+    "tooltop": true,
+    //"tooltip-format": "Devices connected: {num_connections}",
+    "on-click": "kitty --class=Bluetui -e bluetui",
+    "on-click-right": "rfkill toggle bluetooth",
+    "tooltip-format-connected": "connected\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias} {device_battery_percentage}%"
+  },
+  "pulseaudio": {
+    "format": "VOL {volume}%",
+    "on-click": "kitty --class=Wiremix -e wiremix",
+    "on-click-right": "pamixer -t",
+    "tooltip": false,
+    //"tooltip-format": "Playing at {volume}%",
+    "scroll-step": 5,
+    "format-muted": "MUTE {volume}%",
+    /*"format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾", "󱄡"]
+    }*/
+    "states": {
+      "low": 20,
+      "medium": 40,
+      "high": 60,
+      "full": 80
+    }
+  },
+  "group/tray-expander": {
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 600,
+      "children-class": "tray-group-item"
+    },
+    "modules": [
+      "custom/expand-icon",
+      "tray",
+      "power-profiles-daemon"
+    ]
+  },
+  "custom/expand-icon": {
+    "format": "󰘕",
+    "tooltip": false
+  },
+  "tray": {
+    "icon-size": 13,
+    "spacing": 12
+  },
+  "power-profiles-daemon": {
+    "format": "[ {icon} ]",
+    "tooltip": false,
+    //"tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "format-icons": {
+      "default": "BAL",
+      "performance": "PER",
+      "balanced": "BAL",
+      "power-saver": "ECO"
+    }
+  }
+}
