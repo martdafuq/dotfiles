@@ -15,6 +15,16 @@ Waybar
 
 - The tray icon is hidden inside an expandable menu.
 
+#PowerProfile
+
+- Right click to change power profile
+
+| Format | Color | Meaning |
+|---|---|---|
+| ECO | Green | Power Saver |
+| BAL | Blue | Power Balance |
+| PER | Rainbow | Power Perfoemance |
+
 #Bluetooth
 
 - Left click to open bluetui
@@ -22,7 +32,7 @@ Waybar
 
 | Color | Meaning |
 |---|---|
-| White | On, but not connected |
+| White | On, but not connected |
 | Blue | Conected to bluetooth |
 | Gray | Bluetooth off |
 
