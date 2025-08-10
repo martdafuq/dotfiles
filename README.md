@@ -62,3 +62,5 @@ Waybar
 | Capacity% | Rainbow | Charging |
 | FULL | Rainbow | Battery Full |
 | PLUG | Rainbow | Plugged in |
+
+https://github.com/user-attachments/assets/d98e4433-55c6-4ee4-8814-2f8028e739e1
